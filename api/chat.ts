@@ -6,14 +6,18 @@
  * El system prompt se arma en el servidor para que el endpoint no sirva
  * como proxy genérico de Claude.
  *
- * En producción corre como Vercel Edge Function; en local, el plugin de
- * vite.config.ts monta este mismo handler en el dev server.
+ * En producción corre como Vercel Function en runtime Node.js (el SDK importa
+ * @opentelemetry/api, que el runtime Edge no admite). Se exporta `POST` con
+ * firma web (Request → Response): en Node, un `export default` recibiría
+ * (req, res) al estilo antiguo. En local, el plugin de vite.config.ts monta
+ * este mismo handler en el dev server.
+ *
+ * Los imports relativos llevan extensión .js porque package.json es
+ * "type": "module" y Vercel transpila cada archivo sin empaquetar.
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import { SYSTEM_PROMPT } from "../src/lib/context";
-
-export const config = { runtime: "edge" };
+import { SYSTEM_PROMPT } from "../src/lib/context.js";
 
 // Haiku 5.5: Q&A acotado a un documento ⇒ mejor costo-beneficio (~$0.001 por pregunta).
 const DEFAULT_MODEL = "claude-haiku-5-5";
@@ -70,10 +74,7 @@ function isSameOrigin(request: Request): boolean {
   }
 }
 
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== "POST") {
-    return json(405, { error: "method_not_allowed" });
-  }
+export async function POST(request: Request): Promise<Response> {
   if (!isSameOrigin(request)) {
     return json(403, { error: "forbidden" });
   }

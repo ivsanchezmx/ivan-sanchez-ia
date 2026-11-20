@@ -1,4 +1,5 @@
 import { SECTIONS, CV_PDF_URL } from "../sections";
+import { BrandMark } from "./BrandMark";
 import styles from "./Topbar.module.css";
 
 const ASSISTANT_KEY = SECTIONS.findIndex((s) => s.id === "assistant") + 1;
@@ -11,13 +12,9 @@ export function Topbar({ onAsk, onHome }: { onAsk: () => void; onHome: () => voi
   return (
     <header className={`${styles.topbar} no-print`} role="banner">
       <button type="button" className={styles.brand} onClick={onHome} aria-label="Ir al inicio">
-        <span className={styles.brandMark} aria-hidden>
-          <span className={styles.brandLetters}>iS</span>
-          <span className={styles.brandDot} />
-        </span>
+        <BrandMark size={40} />
         <span className={styles.brandText}>
-          <span className={styles.brandName}>CV interactivo</span>
-          <span className={styles.brandTag}>IA aplicada al negocio · 2026</span>
+          <span className={styles.brandName}>IA aplicada al negocio</span>
         </span>
       </button>
 

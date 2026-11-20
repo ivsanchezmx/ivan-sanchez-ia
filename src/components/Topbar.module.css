@@ -37,67 +37,6 @@
   border-radius: 10px;
 }
 
-/* Monograma: placa oscura con aro degradado y letras en serif itálica */
-.brandMark {
-  position: relative;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background:
-    radial-gradient(120% 120% at 20% 0%, rgba(108, 180, 255, 0.22), transparent 55%),
-    #0a0d18;
-  box-shadow: 0 8px 22px -8px rgba(79, 139, 255, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: transform var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out);
-}
-
-.brandMark::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(140deg, #a9d4ff, #4f8bff 45%, #8b7bff);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-.brandLetters {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.42rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  padding-right: 0.06em;
-  transform: translateY(-1px);
-  background: linear-gradient(120deg, #ffffff 10%, #a9d4ff 55%, #8b7bff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Punto "en línea" en la esquina, como destello del monograma */
-.brandDot {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--live);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 8px var(--live-glow);
-}
-
-.brand:hover .brandMark {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 26px -8px rgba(79, 139, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
 .brandText {
   display: flex;
   flex-direction: column;

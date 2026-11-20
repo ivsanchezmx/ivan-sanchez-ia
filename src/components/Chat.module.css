@@ -25,15 +25,7 @@
 
 .avatar {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
-  font-weight: 700;
-  font-size: 0.82rem;
-  color: var(--bg);
-  background: var(--grad-strong);
+  display: inline-flex;
 }
 
 .statusDot {

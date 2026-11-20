@@ -23,7 +23,13 @@ function localApi(): Plugin {
         try {
           const mod = await server.ssrLoadModule("/api/chat.ts");
           const request = await toWebRequest(req);
-          const response: Response = await mod.default(request);
+          if (req.method !== "POST" || typeof mod.POST !== "function") {
+            res.statusCode = 405;
+            res.setHeader("Allow", "POST");
+            res.end(JSON.stringify({ error: "method_not_allowed" }));
+            return;
+          }
+          const response: Response = await mod.POST(request);
           res.statusCode = response.status;
           response.headers.forEach((value, key) => res.setHeader(key, value));
           if (response.body) {

@@ -9,8 +9,8 @@
  *   • Landing: edita `src/lib/site-content.ts` cuando cambie el copy de una sección.
  */
 
-import { DOCS_CONTEXT, DOCS_SOURCES } from "./docs.generated";
-import { SITE_CONTEXT } from "./site-content";
+import { DOCS_CONTEXT, DOCS_SOURCES } from "./docs.generated.js";
+import { SITE_CONTEXT } from "./site-content.js";
 
 export { DOCS_SOURCES };
 

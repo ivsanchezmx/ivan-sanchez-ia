@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { streamAssistant, MODEL_LABEL, type ChatTurn } from "../lib/claude";
 import { SUGGESTED_QUESTIONS } from "../lib/suggestions";
+import { BrandMark } from "./BrandMark";
 import styles from "./Chat.module.css";
 
 function formatTime(d: Date): string {
@@ -184,7 +185,7 @@ export function Chat() {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <span className={styles.avatar} aria-hidden>
-            iS
+            <BrandMark size={36} />
             <span className={styles.statusDot} />
           </span>
           <span className={styles.headerText}>
