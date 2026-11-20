@@ -1,176 +1,109 @@
 /**
- * Mirror en texto del contenido de la landing (§01–§06).
+ * Mirror en texto del contenido del sitio (§01–§04 + contacto).
  *
  * Se concatena al contexto del asistente junto con DOCS_CONTEXT.
  * Cuando se modifique el copy de una sección, actualizar aquí.
+ * Todo debe coincidir con el CV 2026 (public/docs/Ivan_Sanchez_CV_2026.pdf).
  */
 
 export const SITE_CONTEXT: string = `
-# §01 · BIENVENIDA
+# §01 · PERFIL
 
-Meta:
-- Fecha: 12 mayo 2026
-- Posición: Gerente de Habilitación IA
-- Sede: Paseo de las Palmas, CDMX
-- Modalidad: Híbrida 3 oficina + 2 home office
+Titular: IA que se adopta, se mide y escala. Adopción de IA: de la experimentación a agentes en operación.
 
-Cuerpo de la carta (mensaje de bienvenida + presentación, no dirigido a una persona específica — funciona para cualquier lector: Andrea, el líder de la posición, u otros):
+Presentación (en primera persona, escrita por Iván):
+Convierto tecnología en decisiones de negocio: pruebo en pequeño, mido y escalo solo lo que funciona.
+Soy Iván Sánchez Martínez, ingeniero en computación con más de 8 años de experiencia. En FUNDES, con Google.org, lidero el desarrollo de cuatro Estándares de Competencia en IA para MiPyMEs, de los primeros del país. En Innogyzer diseño y construyo agentes de IA para servicios financieros y automotriz: asistentes de análisis, bases de conocimiento y agentes de voz.
 
-Bienvenido y gracias por dedicar tiempo a revisar mi perfil. Preparé esta pieza estructurada para que puedas hojearla en 90 segundos o leerla a fondo en diez minutos —según tu necesidad— y compartirla sin perder contexto.
-
-Soy Iván Sánchez Martínez, consultor en estrategia de IA e innovación con más de ocho años diseñando programas de habilitación corporativa. Actualmente lidero el desarrollo del primer Estándar Nacional de Competencia en IA para MiPyMES en México (FUNDES + Google.org ante CONOCER) y acompaño a organizaciones desde Innogyzer en diagnóstico, definición de casos de uso y diseño de procesos asistidos por IA.
-
-En las siguientes secciones está mi respuesta al filtro de Atracción de Talento de Laboratorios Silanes: validación de indispensables, las tres preguntas de experiencia, evidencia con enlaces vivos y el encaje narrativo con la posición. Si tienes prisa, §02 Indispensables y §04 Evidencia cubren el filtro estricto; §05 Encaje contextualiza por qué este rol embona con el trabajo que ya hago; y en §07 Asistente hay un modelo IA que puede ampliar cualquier punto en vivo.
-
-Firma: Iván Sánchez Martínez.
-
-Tags de credibilidad mostrados al pie de la carta: 8+ años en innovación · FUNDES · Google.org · Custom GPTs públicos · Plataformas propias · CONOCER · Estándar IA.
-
-Timeline compacto debajo del cuerpo de la carta:
+Cifras destacadas:
+- 150+ experimentos al año coordinados en Grupo Rotoplas.
+- ~75% de éxito en hipótesis de negocio evaluadas.
+- $20M+ MXN en inversiones optimizadas o evitadas (resultado del equipo).
+- 2,000+ personas formadas: 1,500 en innovación y 500 en IA.
 
 EXPERIENCIA:
-- 2026 → · Sr. Consultant in AI · FUNDES · Estándar CONOCER de IA.
-- 2025 → · Sr. AI & Innovation Manager · Innogyzer.
-- 2022–2024 · Experimentation & Innovation Manager · Grupo Rotoplas.
-- 2019–2022 · Innovation Analyst → Coordinator · Grupo Rotoplas.
+- Feb 2026 – hoy · Consultor Senior en IA · FUNDES (proyecto con Google.org). Lidera el desarrollo de cuatro Estándares de Competencia en IA para MiPyMEs ante CONOCER (mapas funcionales, criterios de desempeño, reactivos y guías de evaluación). Coordina la gestión del programa nacional Mi CompañIA; codiseñó contenido formativo e imparte webinars para MiPyMEs y técnicos.
+- Ene 2025 – hoy · Consultor en IA · Innogyzer. Diseña y construye agentes de IA (RAG, voz) y arquitecturas multiagente para servicios financieros y automotriz. Diseña e imparte programas de IA para equipos directivos con casos y datos de su sector.
+- May 2022 – Nov 2024 · Gerente de Experimentación e Innovación · Grupo Rotoplas (LATAM). El equipo coordinó 150+ experimentos al año, con ~75% de éxito en hipótesis evaluadas, y contribuyó a optimizar o evitar inversiones por más de $20 millones de pesos; Iván presentó recomendaciones a la alta dirección.
+- Abr 2021 – Abr 2022 · Coordinador de Procesos y Metodologías de Innovación · Grupo Rotoplas. Diseñó el macroproceso corporativo de innovación; +20 puntos de satisfacción (NSS) de clientes internos y 1,500+ colaboradores formados.
+- Sep 2019 – Abr 2021 · Analista de Innovación · Grupo Rotoplas. Hojas de ruta tecnológicas, vigilancia tecnológica y análisis estratégicos para la alta dirección.
 
-EDUCACIÓN:
-- 2023–2026 · Doctorado en Alta Dirección · UVP · en curso.
-- 2018–2019 · MSc. New Tech in Computer Science · Univ. de Murcia · Beca Fundación Carolina.
-- 2016–2018 · MSc. Economics & Innovation Policy · UAM · Beca CONACYT, honores.
-- 2010–2015 · B.Eng. Computer Engineering · UA Tlaxcala · honores.
+FORMACIÓN:
+- Doctorado en Alta Dirección · Universidad del Valle de Puebla · 2023 – en curso.
+- Máster en Nuevas Tecnologías en Informática · Universidad de Murcia, España · 2018 – 2019 · beca Fundación Carolina.
+- Maestría en Economía, Gestión y Políticas de Innovación · UAM Xochimilco · 2016 – 2018 · beca CONACYT · mención honorífica.
+- Ingeniería en Computación · Universidad Autónoma de Tlaxcala · mención honorífica.
 
+DOCENCIA Y MENTORÍA:
+- Mentor · ITAM · Programa de Inteligencia Artificial Aplicada a los Negocios · 2026 – hoy.
+- Docente · UPAEP · Emprendimiento e innovación · 2025 – 2026.
+- Capacitación en IA generativa: 500+ personas en OpenAI, Claude, Gemini y Microsoft.
 
-# §02 · VALIDACIÓN DE INDISPENSABLES (las 6 respuestas exactas)
+ESPECIALIDAD: adopción de IA, agentes y RAG, agentes de voz, experimentación y pilotos, portafolio de innovación, gobernanza de procesos, formación de equipos, gestión de proyectos, estándares de competencia, KPIs para dirección.
 
-1. Ciudad / zona de residencia actual → Tlaxcala Centro (Estado de Tlaxcala, México).
-2. Modalidad híbrida 3 oficina + 2 home office en Paseo de las Palmas CDMX → De acuerdo, conforme con la modalidad y presencialidad indicada.
-3. ¿Necesitaría realizar un cambio de residencia? → Sí, con disposición a realizarlo. Cambio a CDMX previsto al confirmarse el ingreso.
-4. ¿Es o ha sido parte de Laboratorios Silanes? → No. No he formado parte de Laboratorios Silanes con anterioridad.
-5. Ingreso mensual bruto actual → $85,000 MXN (ingreso bruto vigente).
-6. Expectativa de ingreso mensual bruto en caso de cambio → $85,000 MXN, a tratar. Abierto a conversación según paquete integral y alcance del rol.
+STACK: Claude, ChatGPT, Gemini, Copilot Studio, Microsoft Azure AI, Retell AI, Supabase / pgvector, Vercel, Make, n8n, LangChain.
 
+IDIOMAS: español nativo; inglés intermedio (B1).
 
-# §03 · EXPERIENCIA PROFESIONAL (las 3 preguntas del brief)
-
-## Pregunta 01
-Pregunta de Andrea: ¿Cuentas con 5 años o más de experiencia en roles operativos, procesos, mejora continua o implementación de proyectos en empresas medianas o grandes? Comparte brevemente en qué tipo de proyectos y cómo has utilizado herramientas de Inteligencia Artificial en ellos.
-
-Respuesta de Iván:
-Sí. Suma más de 6 años trabajando en procesos de innovación, experimentación y adopción tecnológica en empresas medianas y grandes de Latinoamérica.
-
-En Grupo Rotoplas (2019–2024), el equipo del que formó parte diseñó e implementó el macroproceso corporativo de innovación a nivel regional. Coordinaron en promedio 150 experimentos anuales para validar productos y modelos de negocio, y formaron a más de 1,500 colaboradores en metodologías de innovación. Conforme las herramientas de IA fueron madurando, las incorporaron progresivamente como apoyo en análisis de tendencias, síntesis de hallazgos de experimentación y preparación de recomendaciones para la dirección.
-
-Actualmente combina dos frentes complementarios:
-- Desde Innogyzer (consultoría enfocada en adopción de IA), acompaña a organizaciones en diagnóstico, definición de casos de uso y diseño de procesos asistidos por IA generativa.
-- Es responsable del desarrollo del primer Estándar de Competencia en Inteligencia Artificial para MiPyMES en México, en colaboración con Google.org. Este estándar definirá los criterios oficiales con los que se certificará a evaluadores y colaboradores en uso aplicado de IA a nivel nacional, ante CONOCER–SEP.
-
-## Pregunta 02
-Pregunta de Andrea: Describe tu experiencia utilizando plataformas de IA generativa como ChatGPT, Copilot, Claude o Gemini. ¿Qué tipo de instrucciones, comportamientos o configuraciones has desarrollado para casos de uso específicos?
-
-Respuesta de Iván:
-Uso intensivo y cotidiano de Claude, ChatGPT, Gemini y Copilot, tanto en sus interfaces de chat como vía API. Ha capacitado a más de 500 personas en uso aplicado de IA generativa a través de los cuatro ecosistemas (OpenAI, Anthropic, Google y Microsoft), en contextos corporativos y académicos.
-
-En cuanto a configuración y comportamiento, ha desarrollado:
-- System prompts y configuraciones especializadas para casos de uso específicos (diagnóstico organizacional, redacción técnica, evaluación de contenido, análisis comparativo, soporte a investigación).
-- Bibliotecas de prompts reutilizables aplicadas en proyectos de consultoría, con criterios de calidad y validación.
-- Flujos donde la IA opera como apoyo —no sustituto— a procesos analíticos y de toma de decisión.
-
-Complementariamente, maneja herramientas de automatización y orquestación para integrar IA en flujos de trabajo end-to-end.
-
-Cita textual (pull-quote): "Mi enfoque al configurar instrucciones: definir rol, contexto, criterios de éxito y formato de salida; restringir comportamiento donde la ambigüedad genera respuestas poco útiles; e iterar contra casos reales para calibrar."
-
-## Pregunta 03
-Pregunta de Andrea: Comparte un ejemplo de un Custom GPT, Gem, agente o flujo automatizado que hayas construido directamente. Asimismo, menciona algún caso donde hayas realizado mapeo y documentación de procesos (diagramas, manuales o paso a paso) para facilitar su uso por otros equipos.
-
-Respuesta de Iván:
-Ha construido Custom GPTs, Gems en Gemini, agentes y flujos automatizados que utiliza activamente en su práctica de consultoría. En §04 Evidencia están las ligas públicas a cada uno (interactuables directamente).
-
-Más allá de los Custom GPTs individuales, ha desarrollado dos plataformas propias que orquestan agentes para casos de uso end-to-end: The Leap para flujos de innovación, y Sherlock para investigación de mercado con usuarios sintéticos. Ambas tienen videos demo en sitio; con gusto puede agendar una demo en vivo cuando sea de utilidad en el proceso.
-
-Mapeo y documentación de procesos: En Rotoplas, el equipo documentó el macroproceso corporativo de innovación (diagramas de flujo, criterios de priorización, herramientas asociadas y manuales operativos) que fue adoptado por equipos de innovación en distintos países de la región. En el proyecto FUNDES–CONOCER, su trabajo actual consiste precisamente en desarrollar mapas funcionales, criterios de desempeño y guías de evaluación para terceros que no participaron en el diseño: documentación con estándar normativo nacional.
+DISPONIBILIDAD: disponible para reubicación en México y para viajar.
 
 
-# §04 · EVIDENCIA EN VIVO (URLs públicas)
+# §02 · PROYECTOS CON RESULTADOS (los clientes van sin nombre por confidencialidad)
 
-Nota de la sección: Todo el material es público y abrible al momento (cada tarjeta lleva al recurso real). Para profundizar en cualquier punto, el §07 Asistente está entrenado con CV, LinkedIn y esta landing; también está disponible agendar una demo en vivo de The Leap o Sherlock con Iván directamente (datos de contacto en la sidebar izquierda y en §06).
+1. AFORE · Servicios financieros — Asistente de análisis de NPS que procesa la voz del cliente y genera hallazgos para el área de servicio. Estado: en operación mensual.
+2. AFORE · Servicio y RH — Base de conocimiento RAG con los procedimientos de servicio para apoyar a asesores, y diseño de una arquitectura de dos agentes sobre Gemini + Supabase. Prueba de concepto de un agente de beneficios para RH en Microsoft Copilot Studio. Estado: base construida · PoC de RH.
+3. Marca automotriz · Ventas — Agente de voz (Retell AI) que califica prospectos y agenda pruebas de manejo, integrado con calendario y SMS. Estado: agente construido · piloto propuesto.
+4. Industria y grupos empresariales · Formación directiva — Programas multisesión de IA aplicada (Claude, Excel con IA) con casos y datos de su sector; herramienta de análisis de rutas de distribución con diagnóstico ejecutivo. Estado: entregados a equipos directivos.
+5. Programa nacional · MiPyMEs · Marketing — Biblioteca de cinco asistentes de IA para que una MiPyME cree estrategia, textos, imágenes y video de marketing. Estado: desarrollada.
+6. Productos de IA · Innogyzer — The Leap (orquestación de flujos con agentes), Ask Sherlock (usuarios sintéticos para investigación de mercado; Iván es cofundador) y avatares conversacionales. Estado: MVP · demos en vivo.
+7. FUNDES · Google.org · Estándar nacional — Desarrollo de los EC ante CONOCER (EC1830, EC1835, EC1836, EC1848): mapas funcionales, criterios de desempeño e instrumentos de evaluación. Estado: publicados en el DOF el 28 de octubre de 2026.
 
-Las tarjetas del §04 están agrupadas en tres bloques: Asistente para esta vacante (1), Plataformas propias (2) y Custom GPTs públicos (5).
 
-Asistente para esta vacante (1):
+# §03 · EVIDENCIA EN VIVO (URLs públicas)
 
-0. Pregunta · respuesta sobre Iván — navega a §07 (aquí mismo).
-   Tipo: Asistente · IA en vivo.
-   Modelo entrenado con CV, LinkedIn y esta landing. Responde en vivo sobre experiencia, indispensables del filtro, evidencia y encaje con la vacante. Construido específicamente para este proceso de Atracción de Talento Silanes.
+Todo es público y se puede abrir al momento.
+
+Asistente IA de este perfil: §05 de este mismo sitio (chat con Claude y avatar en video).
+
+Estándares de Competencia en IA publicados en el Diario Oficial de la Federación (28 de octubre de 2026, Acuerdo SE/III-26/10,S del Comité Técnico del CONOCER, SIDOF 5802372: https://sidof.segob.gob.mx/notas/5802372). Proyecto Mi CompañIA de FUNDES México con Google.org:
+- EC1830 · Estándar A · Adopción de soluciones de inteligencia artificial en los procesos de la MiPyME — https://www.conocer.gob.mx/contenido/publicaciones_dof/2026/tercera_so/EC1830.pdf
+- EC1835 · Estándar B · Creación de soluciones comerciales con IA — https://www.conocer.gob.mx/contenido/publicaciones_dof/2026/tercera_so/EC1835.pdf
+- EC1848 · Estándar C · Prestación de servicios de consultoría en mercadotecnia digital con IA — https://www.conocer.gob.mx/contenido/publicaciones_dof/2026/tercera_so/EC1848.pdf
+- EC1836 · Estándar D · Creación de soluciones tecnológicas de modernización digital con IA — https://www.conocer.gob.mx/contenido/publicaciones_dof/2026/tercera_so/EC1836.pdf
 
 Plataformas propias (2):
-
-1. The Leap — https://theleap.innogyzer.com
-   Tipo: Plataforma · Orquestación.
-   Orquestación de flujos de agentes para procesos de innovación. Producto vivo de Innogyzer con video demo en sitio. Iván es desarrollador.
-
-2. Sherlock — https://www.ask-sherlock.app
-   Tipo: Plataforma · Fundador.
-   Usuarios sintéticos para estudio de mercado preliminar en desarrollo de nuevos productos. Iván es fundador y desarrollador.
+1. The Leap — https://theleap.innogyzer.com — Orquestación de flujos con agentes para procesos de innovación. Producto de Innogyzer con video demo en sitio.
+2. Ask Sherlock — https://www.ask-sherlock.app — Usuarios sintéticos para investigación de mercado preliminar. Iván es cofundador.
 
 Custom GPTs públicos (5) — todos en chatgpt.com/g/:
+1. Experto en JTBD — https://chatgpt.com/g/g-67a114fbd6cc8191b3414808b6b71bbb-experto-en-jtbd — Marco Jobs to Be Done para entrevistas, síntesis y oportunidades de innovación.
+2. Xperimenta by Innogyzer — https://chatgpt.com/g/g-0v021tXCJ-xperimenta-by-innogyzer — Diseño y planificación de experimentos para validar hipótesis de producto y modelo de negocio.
+3. Yprototiper by Innogyzer — https://chatgpt.com/g/g-6799b2dba3048191bd7a4318a64de702-yprototiper-by-innogyzer — Generación rápida de prototipos conceptuales.
+4. Canvas Maestro — https://chatgpt.com/g/g-wGAIdb1yZ-canvas-maestro-modelos-de-negocio — Business Model Canvas y propuestas de valor.
+5. Arquetipos UX — https://chatgpt.com/g/g-67c0aa7f498c819183294fc62937ae41-arquetipos-ux — Arquetipos y personas con base en investigación cualitativa.
 
-1. Experto en JTBD — https://chatgpt.com/g/g-67a114fbd6cc8191b3414808b6b71bbb-experto-en-jtbd
-   Asistente experto en el marco Jobs to Be Done para entrevistas, síntesis y oportunidades de innovación.
-
-2. Xperimenta by Innogyzer — https://chatgpt.com/g/g-0v021tXCJ-xperimenta-by-innogyzer
-   Diseño y planificación de experimentos para validar hipótesis de producto y modelo de negocio.
-
-3. Yprototiper by Innogyzer — https://chatgpt.com/g/g-6799b2dba3048191bd7a4318a64de702-yprototiper-by-innogyzer
-   Generación rápida de prototipos conceptuales para acelerar ciclos de validación.
-
-4. Canvas Maestro — https://chatgpt.com/g/g-wGAIdb1yZ-canvas-maestro-modelos-de-negocio
-   Asistente para articular Business Model Canvas y refinar propuestas de valor en sesiones ejecutivas.
-
-5. Arquetipos UX — https://chatgpt.com/g/g-67c0aa7f498c819183294fc62937ae41-arquetipos-ux
-   Construcción de arquetipos y personas con base en investigación cualitativa para equipos de producto.
+Siguientes pasos que ofrece (al final de §03; cada uno abre WhatsApp): demo en vivo, caso a fondo, o conversación sobre un rol, proyecto o colaboración.
 
 
-# §05 · POR QUÉ ESTE ROL ENCAJA CON SU TRABAJO ACTUAL
+# §04 · CÓMO TRABAJA (siete pasos; el sitio manda sobre el CV, que lista seis)
 
-El encaje se presenta en tres ángulos concretos, cada uno con su "puente" explícito a lo que el rol en Silanes demanda.
+1. Entender la empresa — contexto, cultura y madurez digital antes de hablar de herramientas.
+2. Entender el problema — levantamiento de información con las áreas involucradas.
+3. Plantear hipótesis — qué se espera mejorar y cómo se va a medir.
+4. Priorizar y armar el portafolio — definir qué va primero según impacto y esfuerzo, y ordenar las iniciativas en un portafolio que la dirección pueda gestionar.
+5. Probar en pequeño — prueba de concepto o MVP antes de invertir.
+6. Acompañar el cambio — formación práctica y gestión del cambio para que la gente adopte la herramienta.
+7. Escalar lo que funciona — con indicadores claros.
 
-## //01 · enablement — Habilitación que escala más allá del que la diseña.
-En Rotoplas, el macroproceso corporativo de innovación que el equipo de Iván documentó —criterios de intake, herramientas, KPIs, manuales operativos— fue adoptado por equipos en distintos países de LATAM sin su presencia. Formaron a más de 1,500 colaboradores. Habilitación no es enseñar herramientas; es codificar capacidades para que los equipos las operen autónomamente.
-Bridge a Silanes: un sistema de habilitación en IA que no dependa de una sola persona para sostenerse, y que pueda replicarse por unidad de negocio.
-
-## //02 · standards — Definiendo el primer Estándar Nacional de Competencia en IA en México.
-Como Líder de Diseño Normativo en FUNDES (Google.org + CONOCER-SEP), construye los criterios oficiales con los que se certificará el uso aplicado de IA en MiPyMES: mapeo funcional, criterios de desempeño, bancos de reactivos y validación institucional ante el Sistema Nacional de Competencias.
-Bridge a Silanes: definir qué significa "IA bien usada" en su contexto regulado (farma), qué indicadores miden adopción, y qué evidencia certifica competencia por función.
-
-## //03 · stack — Claude, ChatGPT, Gemini y Copilot: uso diario, chat y API.
-Más de 500 personas capacitadas en uso aplicado a través de los cuatro ecosistemas (OpenAI, Anthropic, Google, Microsoft). System prompts especializados, bibliotecas de prompts reutilizables, agentes y dos plataformas propias (The Leap, Sherlock).
-Bridge a Silanes: visión normativa + ejecución técnica con las cuatro plataformas + change management cierran el círculo de un rol de habilitación.
-
-Cifras destacadas en la landing (sección stats):
-- 1,500+ colaboradores formados en Rotoplas.
-- 500+ personas capacitadas en IA generativa.
-- ~75% tasa de éxito en hipótesis evaluadas.
-- $20M+ MXN en inversión optimizada o evitada.
+Su regla: la IA apoya, no sustituye; la decisión final siempre la toma una persona. Su método viene de la experimentación corporativa: validar rápido con datos y escalar solo lo que funciona.
 
 
-# §06 · SIGUIENTE PASO (video, contacto, CTA)
+# CONTACTO (panel fijo de la barra lateral; en celular, arriba)
 
-Video de presentación:
-- Duración: 2 minutos.
-- El video está embebido vía YouTube en §06 Contacto (https://www.youtube.com/embed/i3JsnDymEiM) — Andrea puede verlo inline en la landing.
-- Debajo del reproductor hay un botón "Abrir en Drive" (liga pública de Google Drive: https://drive.google.com/file/d/1UkJV3Y9SF2iGmD6lHTjwQI6EzDasogjI/view?usp=sharing) como alternativa con acceso al archivo original.
-- Si te preguntan dónde ver el video, responde: "Está embebido en §06 Contacto · Siguiente paso vía YouTube, con un botón para abrirlo en Drive como alternativa."
-
-Datos directos (también visibles en la sidebar):
-- Correo (principal): ivsanchezmx@gmail.com
-- Correo alterno: computoisz@gmail.com
-- Teléfono: +52 246 127 1067
+- WhatsApp y teléfono: +52 246 127 1067 (botón "Escríbeme por WhatsApp" en el panel de contacto)
+- Correo: ivsanchezmx@gmail.com
 - LinkedIn: linkedin.com/in/ivsanchezm
-- Residencia: Tlaxcala, MX (con disposición a CDMX)
-
-Llamado a la acción / siguiente paso:
-- Disponible para agendar una demo en vivo de The Leap o Sherlock.
-- Disponible para ampliar cualquier caso de habilitación con IA documentado.
-- Disponible para avanzar directamente a entrevista con el líder de la posición.
+- Base: Tlaxcala, México
+- CV en PDF: botón "Descargar CV" (barra superior y panel de contacto).
+- Este sitio: ivsanchezmcv.vercel.app
 `.trim();

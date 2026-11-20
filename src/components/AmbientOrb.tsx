@@ -2,36 +2,28 @@ import { motion } from "framer-motion";
 import styles from "./AmbientOrb.module.css";
 
 /**
- * Glow drift detrás del contenido. Solo decorativo.
- * Si el usuario prefiere reduced-motion, queda estático.
+ * Aurora de fondo: tres masas de luz que derivan lento detrás del contenido.
+ * Solo decorativo; con reduced-motion queda estático (regla global).
  */
 export function AmbientOrb() {
   return (
     <div className={styles.host} aria-hidden>
       <motion.div
-        className={styles.orb}
-        animate={{
-          x: ["-12%", "8%", "-6%", "-12%"],
-          y: ["6%", "-4%", "10%", "6%"],
-        }}
-        transition={{
-          duration: 22,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        className={`${styles.orb} ${styles.orbA}`}
+        animate={{ x: ["-10%", "8%", "-4%", "-10%"], y: ["4%", "-6%", "8%", "4%"] }}
+        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className={`${styles.orb} ${styles.orbAlt}`}
-        animate={{
-          x: ["10%", "-6%", "4%", "10%"],
-          y: ["-4%", "8%", "-2%", "-4%"],
-        }}
-        transition={{
-          duration: 28,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        className={`${styles.orb} ${styles.orbB}`}
+        animate={{ x: ["8%", "-8%", "4%", "8%"], y: ["-4%", "6%", "-2%", "-4%"] }}
+        transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
       />
+      <motion.div
+        className={`${styles.orb} ${styles.orbC}`}
+        animate={{ x: ["0%", "10%", "-6%", "0%"], y: ["0%", "-8%", "4%", "0%"] }}
+        transition={{ duration: 38, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <div className={styles.horizon} />
     </div>
   );
 }

@@ -45,3 +45,6 @@ public/media/
 
 # TypeScript build info cache
 *.tsbuildinfo
+
+# Material privado (CVs a medida, notas de entrevistas): nunca se sube
+extras/

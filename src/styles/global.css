@@ -10,7 +10,6 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   color-scheme: dark;
 }
 
@@ -24,15 +23,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv11", "ss01";
-  overflow: hidden; /* en desktop el shell controla scroll por panel */
+  overflow: hidden; /* en desktop el shell controla el scroll por panel */
   min-height: 100vh;
 }
 
 /* En mobile, el body vuelve a ser el scroller del documento.
-   Esta regla VIVE en global.css (no en App.module.css) para que el
-   cascade sea source-order seguro: independientemente de en qué orden
-   Vite inyecte los <style> tags, la regla mobile siempre viene después
-   de la regla base dentro del mismo archivo. */
+   Vive aquí (no en App.module.css) para que el orden de cascada sea
+   seguro sin importar en qué orden Vite inyecte los <style>. */
 @media (max-width: 900px) {
   body {
     overflow: auto;
@@ -47,30 +44,27 @@ body {
   z-index: 1;
 }
 
-/* Background: dot-grid + ambient mesh — depth without distraction */
+/* Fondo: retícula de puntos con máscara + grano fino */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
-  background-size: 32px 32px;
-  background-position: 0 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 28px 28px;
   z-index: 0;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 75% 65% at 60% 20%, black 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 60% 20%, black 0%, transparent 78%);
 }
 
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -50%;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 80% 0%, rgba(96, 165, 250, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 20% 100%, rgba(37, 99, 235, 0.06) 0%, transparent 60%);
-  z-index: 0;
+  z-index: 2;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 a {
@@ -99,10 +93,83 @@ button {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-/* ── Typography utilities ─────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 214, 0.16);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 214, 0.3);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ── Superficies ─────────────────────────────────────────── */
+
+/* Vidrio con borde degradado de 1px (máscara en ::before). */
+.glass {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  isolation: isolate;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--grad-border);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Brillo que sigue al cursor (usa --mx / --my que fija useSpotlight). */
+.spotlight {
+  --mx: 50%;
+  --my: 50%;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t-base) var(--ease-out);
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgba(108, 180, 255, 0.12), transparent 45%);
+  z-index: 0;
+}
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* ── Tipografía ──────────────────────────────────────────── */
+
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .mono {
   font-family: var(--mono);
@@ -111,53 +178,55 @@ button {
 
 .eyebrow {
   font-family: var(--mono);
-  font-size: 0.66rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   color: var(--accent);
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .eyebrow::before {
   content: "";
   display: inline-block;
-  width: 1rem;
+  width: 1.1rem;
   height: 1px;
-  background: var(--accent);
+  background: var(--grad-strong);
 }
 
 .eyebrow-muted {
   font-family: var(--mono);
   font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.14em;
   color: var(--text-3);
 }
 
 .display-title {
   font-family: var(--sans);
-  font-weight: 500;
-  letter-spacing: -0.028em;
+  font-weight: 600;
+  letter-spacing: -0.035em;
   color: var(--text);
-  line-height: 1.04;
+  line-height: 1.02;
 }
 
 .display-title em {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--accent);
   letter-spacing: -0.01em;
+  padding-right: 0.06em;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Body prose — sans, not serif. Reserve serif for italic accents only. */
+/* Prosa — sans; el serif se reserva para acentos en itálica. */
 .body-prose p {
-  font-family: var(--sans);
-  font-size: clamp(0.98rem, 1.05vw, 1.05rem);
-  line-height: 1.65;
-  font-weight: 400;
+  font-size: clamp(0.98rem, 1.05vw, 1.06rem);
+  line-height: 1.7;
   color: var(--text-2);
   margin-bottom: 1rem;
 }
@@ -174,43 +243,42 @@ button {
 .body-prose em {
   font-family: var(--serif);
   font-style: italic;
-  font-weight: 400;
+  font-size: 1.08em;
   color: var(--accent-bright);
-  letter-spacing: -0.005em;
 }
 
 .body-prose ul {
   list-style: none;
-  padding: 0;
-  margin: 0.6rem 0 1rem 0;
+  margin: 0.6rem 0 1.1rem;
 }
 
 .body-prose li {
-  font-family: var(--sans);
   font-size: clamp(0.95rem, 1vw, 1.02rem);
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--text-2);
-  padding-left: 1.5rem;
+  padding-left: 1.6rem;
   position: relative;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .body-prose li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.65rem;
-  width: 0.85rem;
-  height: 1px;
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent-glow);
+  left: 0.2rem;
+  top: 0.62rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--grad-strong);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transform: rotate(45deg);
 }
 
 .body-prose li strong {
   color: var(--text);
 }
 
-/* ── Reduced motion ──────────────────────────────────────── */
+/* ── Movimiento reducido ─────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -223,7 +291,7 @@ button {
   }
 }
 
-/* ── Print ───────────────────────────────────────────────── */
+/* ── Impresión ───────────────────────────────────────────── */
 
 @media print {
   body {

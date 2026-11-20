@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  streamGemini,
-  isGeminiConfigured,
-  GeminiKeyMissingError,
-  GeminiRateLimitError,
-  type ChatTurn,
-} from "../lib/gemini";
-import { SUGGESTED_QUESTIONS } from "../lib/context";
+import { streamAssistant, MODEL_LABEL, type ChatTurn } from "../lib/claude";
+import { SUGGESTED_QUESTIONS } from "../lib/suggestions";
 import styles from "./Chat.module.css";
 
 function formatTime(d: Date): string {
-  return `${String(d.getHours()).padStart(2, "0")}:${String(
-    d.getMinutes()
-  ).padStart(2, "0")}`;
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
 interface RenderedTurn extends ChatTurn {
@@ -95,7 +87,6 @@ function renderMessageBody(text: string): ReactNode[] {
 }
 
 export function Chat() {
-  const configured = isGeminiConfigured();
   const [messages, setMessages] = useState<RenderedTurn[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
@@ -105,9 +96,7 @@ export function Chat() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useEffect(() => {
-    return () => abortRef.current?.abort();
-  }, []);
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -115,25 +104,23 @@ export function Chat() {
     }
   }, [messages, streaming]);
 
+  // Auto-alto del textarea
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
+  }, [input]);
+
   async function send(text: string) {
     const trimmed = text.trim();
     if (!trimmed || streaming) return;
     setError(null);
 
-    const userTurn: RenderedTurn = {
-      role: "user",
-      text: trimmed,
-      time: formatTime(new Date()),
-    };
-    const placeholderTurn: RenderedTurn = {
-      role: "assistant",
-      text: "",
-      time: formatTime(new Date()),
-    };
+    const userTurn: RenderedTurn = { role: "user", text: trimmed, time: formatTime(new Date()) };
+    const placeholderTurn: RenderedTurn = { role: "assistant", text: "", time: formatTime(new Date()) };
 
-    const historyForApi: ChatTurn[] = [...messages, userTurn].map(
-      ({ role, text }) => ({ role, text })
-    );
+    const historyForApi: ChatTurn[] = [...messages, userTurn].map(({ role, text }) => ({ role, text }));
 
     setMessages((prev) => [...prev, userTurn, placeholderTurn]);
     setInput("");
@@ -144,7 +131,7 @@ export function Chat() {
     abortRef.current = abort;
 
     try {
-      await streamGemini({
+      await streamAssistant({
         history: historyForApi,
         signal: abort.signal,
         onChunk: (chunk) => {
@@ -160,23 +147,18 @@ export function Chat() {
       });
     } catch (e) {
       if ((e as Error).name === "AbortError") return;
-      let msg = "Algo salió mal. Intenta de nuevo.";
-      if (e instanceof GeminiKeyMissingError) {
-        msg = e.message;
-      } else if (e instanceof GeminiRateLimitError) {
-        msg = e.message;
-      } else if (e instanceof Error) {
-        msg = e.message;
-      }
-      setError(msg);
+      setError(e instanceof Error ? e.message : "Algo salió mal. Intenta de nuevo.");
+      // Quita el par pregunta/respuesta fallido para que el historial siga alternando.
       setMessages((prev) => {
         const next = [...prev];
         const last = next[next.length - 1];
         if (last?.role === "assistant" && !last.text) {
           next.pop();
+          if (next[next.length - 1]?.role === "user") next.pop();
         }
         return next;
       });
+      setInput(trimmed);
     } finally {
       setStreaming(false);
     }
@@ -197,38 +179,18 @@ export function Chat() {
     inputRef.current?.focus();
   }
 
-  if (!configured) {
-    return (
-      <div className={styles.unconfigured}>
-        <div className={styles.unconfiguredLabel}>// asistente · sin api key</div>
-        <h3 className={styles.unconfiguredTitle}>
-          El asistente está apagado en esta build
-        </h3>
-        <p className={styles.unconfiguredBody}>
-          Para activarlo, agrega <code>VITE_GEMINI_API_KEY</code> en{" "}
-          <code>.env</code> y reinicia el dev server. Obtén tu key gratis en{" "}
-          <a
-            href="https://aistudio.google.com/apikey"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.unconfiguredLink}
-          >
-            aistudio.google.com/apikey
-          </a>
-          . La key se incluye en el bundle público — restríngela por dominio
-          antes de desplegar.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.chat}>
+    <div className={`glass ${styles.chat}`}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <span className={styles.statusDot} aria-hidden />
-          <span className={styles.headerLabel}>asistente.ivan</span>
-          <span className={styles.headerMeta}>· gemini-2.5-flash</span>
+          <span className={styles.avatar} aria-hidden>
+            iS
+            <span className={styles.statusDot} />
+          </span>
+          <span className={styles.headerText}>
+            <span className={styles.headerLabel}>Asistente de Iván</span>
+            <span className={styles.headerMeta}>{MODEL_LABEL} · responde en segundos</span>
+          </span>
         </div>
         <button
           type="button"
@@ -237,26 +199,33 @@ export function Chat() {
           disabled={messages.length === 0 && !streaming}
           aria-label="Limpiar conversación"
         >
-          limpiar
+          Limpiar
         </button>
       </div>
 
       <div className={styles.scroll} ref={scrollRef} aria-live="polite">
         {messages.length === 0 ? (
           <div className={styles.empty}>
+            <div className={styles.emptyOrb} aria-hidden>
+              ✦
+            </div>
+            <p className={styles.emptyTitle}>¿Qué quieres saber de Iván?</p>
             <div className={styles.suggestions}>
-              {SUGGESTED_QUESTIONS.map((q) => (
-                <button
+              {SUGGESTED_QUESTIONS.map((q, i) => (
+                <motion.button
                   key={q}
                   type="button"
                   className={styles.suggestion}
                   onClick={() => send(q)}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.05 * i, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <span className={styles.suggestionArrow} aria-hidden>
-                    →
-                  </span>
                   {q}
-                </button>
+                  <span className={styles.suggestionArrow} aria-hidden>
+                    ↗
+                  </span>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -264,27 +233,21 @@ export function Chat() {
           <ul className={styles.messages}>
             {messages.map((m, i) => {
               const isUser = m.role === "user";
-              const isLastAssistant =
-                !isUser && i === messages.length - 1 && streaming;
-              const isPendingFirstChunk =
-                !isUser && streaming && i === messages.length - 1 && !m.text;
+              const isLast = i === messages.length - 1;
+              const isStreamingThis = !isUser && isLast && streaming;
+              const body = m.text;
+              const isPendingFirstChunk = isStreamingThis && !body;
               return (
-                <li
+                <motion.li
                   key={i}
-                  className={`${styles.turn} ${
-                    isUser ? styles.turnUser : styles.turnAssistant
-                  }`}
+                  className={`${styles.turn} ${isUser ? styles.turnUser : styles.turnAssistant}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className={styles.turnHead}>
-                    <span className={styles.turnAuthor}>
-                      {isUser ? "> visitante" : "> ivan_asistente"}
-                    </span>
-                    <span className={styles.turnTime}>· {m.time}</span>
-                    <span className={styles.turnRule} aria-hidden />
-                  </div>
-                  <div className={styles.turnBody}>
+                  <div className={styles.bubble}>
                     {isPendingFirstChunk ? (
-                      <span className={styles.thinking}>
+                      <span className={styles.thinking} aria-label="Pensando">
                         <span className={styles.thinkingDot} />
                         <span className={styles.thinkingDot} />
                         <span className={styles.thinkingDot} />
@@ -293,16 +256,15 @@ export function Chat() {
                       <p className={styles.turnPara}>{m.text}</p>
                     ) : (
                       <>
-                        {renderMessageBody(m.text)}
-                        {isLastAssistant && (
-                          <span className={styles.cursor} aria-hidden>
-                            ▍
-                          </span>
-                        )}
+                        {renderMessageBody(body)}
+                        {isStreamingThis && <span className={styles.cursor} aria-hidden />}
                       </>
                     )}
                   </div>
-                </li>
+                  <span className={styles.turnTime}>
+                    {isUser ? "Tú" : "Asistente"} · {m.time}
+                  </span>
+                </motion.li>
               );
             })}
           </ul>
@@ -317,8 +279,7 @@ export function Chat() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              <span className={styles.errorTag}>error</span>
-              <span>{error}</span>
+              {error}
             </motion.div>
           )}
         </AnimatePresence>
@@ -338,6 +299,7 @@ export function Chat() {
           onKeyDown={onKey}
           placeholder="Pregunta lo que quieras sobre Iván…"
           rows={1}
+          maxLength={2000}
           className={styles.input}
           disabled={streaming}
           aria-label="Pregunta para el asistente"
@@ -348,15 +310,13 @@ export function Chat() {
           disabled={!input.trim() || streaming}
           aria-label="Enviar pregunta"
         >
-          <span className={styles.sendLabel}>enviar</span>
-          <span className={styles.sendArrow} aria-hidden>
-            →
-          </span>
+          ↑
         </button>
       </form>
 
       <p className={styles.disclaimer}>
-        Puede equivocarse — para datos críticos confirma con Iván directamente.
+        Responde solo con base en el CV, LinkedIn y este sitio. Puede equivocarse: para datos críticos,
+        confirma con Iván.
       </p>
     </div>
   );

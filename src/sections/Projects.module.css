@@ -1,0 +1,104 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(0, 14rem);
+  align-items: center;
+  column-gap: 1.75rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.row > * {
+  position: relative;
+  z-index: 1;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.client {
+  font-weight: 600;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.area {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.what {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.status {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-align: right;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--accent-bright);
+}
+
+.statusLive {
+  color: #6ee7b7;
+}
+
+.statusDot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 10px var(--live-glow);
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--text-3);
+}
+
+.noteLink {
+  color: var(--accent-bright);
+  font-weight: 500;
+}
+
+.noteLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+  .row {
+    grid-template-columns: 1fr;
+    row-gap: 0.6rem;
+  }
+  .status {
+    justify-self: start;
+    text-align: left;
+  }
+}

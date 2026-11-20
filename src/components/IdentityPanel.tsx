@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { SECTIONS, type SectionId } from "../sections";
+import { SECTIONS, CV_PDF_URL, type SectionId } from "../sections";
+import { WHATSAPP_URL, WhatsAppIcon } from "../lib/whatsapp";
 import styles from "./IdentityPanel.module.css";
 
 interface Props {
@@ -7,61 +8,57 @@ interface Props {
   onSelect: (id: SectionId) => void;
 }
 
+const CONTACT = [
+  { label: "celular", value: "+52 246 127 1067", href: "tel:+522461271067" },
+  { label: "email", value: "ivsanchezmx@gmail.com", href: "mailto:ivsanchezmx@gmail.com" },
+  { label: "linkedin", value: "/in/ivsanchezm", href: "https://linkedin.com/in/ivsanchezm", external: true },
+];
+
 export function IdentityPanel({ active, onSelect }: Props) {
   return (
     <aside className={styles.panel} aria-label="Identidad y navegación">
       <div className={styles.scroll}>
         <div className={styles.identity}>
-          <div className={styles.photoFrame}>
+          <div className={styles.photoWrap}>
+            <span className={styles.photoRing} aria-hidden />
             <img
               src="/img/ivan.jpg"
               alt="Iván Sánchez Martínez"
               className={styles.photo}
               loading="eager"
             />
-            <span className={styles.photoCorner} aria-hidden />
             <span className={styles.photoStatus} aria-hidden>
               <span className={styles.photoStatusDot} />
-              available
             </span>
           </div>
           <div className={styles.identityBody}>
-            <div className={styles.identityKicker}>
-              candidato<span className={styles.cursor} aria-hidden>_</span>
-            </div>
             <h2 className={styles.name}>
-              Iván Sánchez<br />
-              <em className={styles.nameAccent}>Martínez</em>
+              Iván Sánchez <em>Martínez</em>
             </h2>
-            <p className={styles.role}>
-              <span className={styles.roleLabel}>role</span>
-              <span className={styles.roleValue}>
-                gerente · habilitación IA
-              </span>
-            </p>
-            <p className={styles.role}>
-              <span className={styles.roleLabel}>track</span>
-              <span className={styles.roleValue}>silanes / mayo 2026</span>
-            </p>
+            <p className={styles.role}>Consultor Senior en IA · Ingeniero en computación</p>
           </div>
         </div>
 
         <nav className={styles.nav} aria-label="Secciones">
           <div className={styles.navHead}>
-            <span className={styles.navLabel}>// índice</span>
+            <span className="eyebrow-muted">Índice</span>
             <span className={styles.navHint}>
-              {SECTIONS.length.toString().padStart(2, "0")} caps
+              <kbd className={styles.kbd}>←</kbd>
+              <kbd className={styles.kbd}>→</kbd>
             </span>
           </div>
           <ul className={styles.navList}>
             {SECTIONS.map((s) => {
               const isActive = s.id === active;
+              const isAssistant = s.id === "assistant";
               return (
                 <li key={s.id}>
                   <button
                     type="button"
                     onClick={() => onSelect(s.id)}
-                    className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
+                    className={`${styles.navItem} ${isActive ? styles.navItemActive : ""} ${
+                      isAssistant ? styles.navItemAi : ""
+                    }`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {isActive && (
@@ -74,9 +71,13 @@ export function IdentityPanel({ active, onSelect }: Props) {
                     <span className={styles.navItemContent}>
                       <span className={styles.navNum}>{s.num}</span>
                       <span className={styles.navItemLabel}>{s.label}</span>
-                      <span className={styles.navItemArrow} aria-hidden>
-                        →
-                      </span>
+                      {isAssistant ? (
+                        <span className={styles.navBadge}>live</span>
+                      ) : (
+                        <span className={styles.navItemArrow} aria-hidden>
+                          →
+                        </span>
+                      )}
                     </span>
                   </button>
                 </li>
@@ -86,54 +87,33 @@ export function IdentityPanel({ active, onSelect }: Props) {
         </nav>
 
         <div className={styles.contact}>
-          <div className={styles.contactHead}>
-            <span className={styles.navLabel}>// contacto</span>
-          </div>
-          <div className={styles.contactRow}>
-            <span className={styles.contactLabel}>email</span>
+          <span className="eyebrow-muted">Contacto</span>
+          {CONTACT.map((c) => (
             <a
-              href="mailto:ivsanchezmx@gmail.com"
-              className={styles.contactValue}
+              key={c.label}
+              href={c.href}
+              className={styles.contactRow}
+              {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
-              ivsanchezmx@gmail.com
+              <span className={styles.contactLabel}>{c.label}</span>
+              <span className={styles.contactValue}>{c.value}</span>
             </a>
-          </div>
-          <div className={styles.contactRow}>
-            <span className={styles.contactLabel}>tel</span>
-            <a href="tel:+522461271067" className={styles.contactValue}>
-              +52 246 127 1067
-            </a>
-          </div>
-          <div className={styles.contactRow}>
-            <span className={styles.contactLabel}>linkedin</span>
-            <a
-              href="https://linkedin.com/in/ivsanchezm"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.contactValue}
-            >
-              /in/ivsanchezm
-            </a>
-          </div>
+          ))}
           <a
-            href="/docs/Ivan_Sanchez_CV_2026_v2.pdf"
-            download
-            className={styles.cvButton}
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.waButton}
           >
-            <span className={styles.cvButtonText}>Descargar CV</span>
+            <WhatsAppIcon size={17} />
+            <span>Escríbeme por WhatsApp</span>
+          </a>
+          <a href={CV_PDF_URL} download className={styles.cvButton}>
+            <span>Descargar CV</span>
             <span className={styles.cvButtonArrow} aria-hidden>
               ↓
             </span>
           </a>
-        </div>
-
-        <div className={styles.footMark}>
-          <span className={styles.footMeta}>tlaxcala · mx</span>
-          <span className={styles.footHint}>
-            <kbd className={styles.kbd}>←</kbd>
-            <kbd className={styles.kbd}>→</kbd>
-            <span> nav</span>
-          </span>
         </div>
       </div>
     </aside>

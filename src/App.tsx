@@ -1,33 +1,42 @@
 import { useEffect, useRef, useState, type ComponentType } from "react";
+import { motion } from "framer-motion";
 import { Topbar } from "./components/Topbar";
 import { IdentityPanel } from "./components/IdentityPanel";
 import { AmbientOrb } from "./components/AmbientOrb";
-import { Letter } from "./sections/Letter";
-import { Validation } from "./sections/Validation";
-import { Experience } from "./sections/Experience";
+import { Profile } from "./sections/Profile";
+import { Projects } from "./sections/Projects";
 import { Evidence } from "./sections/Evidence";
-import { Fit } from "./sections/Fit";
-import { Contact } from "./sections/Contact";
+import { Approach } from "./sections/Approach";
 import { Assistant } from "./sections/Assistant";
-import { SECTIONS, type SectionId } from "./sections";
+import { SECTIONS, type SectionId, type SectionMeta } from "./sections";
 import { SectionNavContext } from "./lib/sectionNav";
 import styles from "./App.module.css";
 
 const SECTION_COMPONENTS: Record<SectionId, ComponentType> = {
-  letter: Letter,
-  validation: Validation,
-  experience: Experience,
+  profile: Profile,
+  projects: Projects,
   evidence: Evidence,
-  fit: Fit,
-  contact: Contact,
+  approach: Approach,
   assistant: Assistant,
 };
 
+function SectionTitle({ meta }: { meta: SectionMeta }) {
+  const { title, accent } = meta;
+  if (!accent || !title.endsWith(accent)) return <>{title}</>;
+  const head = title.slice(0, title.length - accent.length);
+  return (
+    <>
+      {head}
+      <em>{accent}</em>
+    </>
+  );
+}
+
 export default function App() {
-  const [active, setActive] = useState<SectionId>("letter");
+  const [active, setActive] = useState<SectionId>("profile");
   const contentRef = useRef<HTMLElement | null>(null);
 
-  // Keyboard nav: ←/→ y números 1–7 cambian sección.
+  // Navegación por teclado: ←/→ y números 1–N cambian de sección.
   // No captura teclas si el foco está en un input/textarea/contenteditable
   // (para no interrumpir cuando el usuario escribe en el chat).
   useEffect(() => {
@@ -47,7 +56,7 @@ export default function App() {
       } else if (e.key === "ArrowLeft") {
         const prev = SECTIONS[Math.max(idx - 1, 0)];
         if (prev) setActive(prev.id);
-      } else if (/^[1-7]$/.test(e.key)) {
+      } else if (/^[1-9]$/.test(e.key)) {
         const target = SECTIONS[parseInt(e.key, 10) - 1];
         if (target) setActive(target.id);
       }
@@ -56,44 +65,64 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKey);
   }, [active]);
 
-  // Reset scroll del panel de contenido al cambiar sección
+  // Al cambiar de sección, regresa el scroll arriba (panel en desktop, ventana en mobile).
   useEffect(() => {
     contentRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
   }, [active]);
 
   const ActiveSection = SECTION_COMPONENTS[active];
   const meta = SECTIONS.find((s) => s.id === active)!;
-
   const idx = SECTIONS.findIndex((s) => s.id === active);
+  const progress = ((idx + 1) / SECTIONS.length) * 100;
 
   return (
     <SectionNavContext.Provider value={setActive}>
-    <div className={styles.app}>
-      <AmbientOrb />
-      <Topbar />
-      <div className={styles.shell}>
-        <IdentityPanel active={active} onSelect={setActive} />
-        <main className={styles.content} ref={contentRef} id="content">
-          <header className={styles.contentHead}>
-            <div className={styles.contentMeta}>
-              <span className={styles.contentNum}>{meta.num}</span>
-              <span className={styles.contentSeparator}>/</span>
-              <span className={styles.contentTotal}>
-                {String(idx + 1).padStart(2, "0")} of {String(SECTIONS.length).padStart(2, "0")}
-              </span>
+      <div className={styles.app}>
+        <AmbientOrb />
+        <Topbar onAsk={() => setActive("assistant")} onHome={() => setActive("profile")} />
+        <div className={styles.shell}>
+          <IdentityPanel active={active} onSelect={setActive} />
+          <main className={styles.content} ref={contentRef} id="content">
+            <div className={styles.progress} aria-hidden>
+              <motion.span
+                className={styles.progressBar}
+                animate={{ width: `${progress}%` }}
+                transition={{ type: "spring", stiffness: 120, damping: 24 }}
+              />
             </div>
-            <h1 className={`display-title ${styles.contentTitle}`}>{meta.title}</h1>
-            <p className={styles.contentSubtitle}>{meta.subtitle}</p>
-          </header>
-          <div key={active} className={styles.contentBody}>
-            <ActiveSection />
-          </div>
-          <footer className={`${styles.contentFoot} no-print`} aria-label="Navegación entre secciones">
-            <NavPager active={active} onSelect={setActive} />
-          </footer>
-        </main>
+            <div className={styles.inner}>
+              <motion.header
+                key={`head-${active}`}
+                className={styles.contentHead}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className={styles.contentMeta}>
+                  <span className={styles.contentNum}>{meta.num}</span>
+                  <span className={styles.contentRule} aria-hidden />
+                  <span className={styles.contentTotal}>
+                    {String(idx + 1).padStart(2, "0")} / {String(SECTIONS.length).padStart(2, "0")}
+                  </span>
+                </div>
+                <h1 className={`display-title ${styles.contentTitle}`}>
+                  <SectionTitle meta={meta} />
+                </h1>
+                <p className={styles.contentSubtitle}>{meta.subtitle}</p>
+              </motion.header>
+              <div key={active} className={styles.contentBody}>
+                <ActiveSection />
+              </div>
+              <footer className={`${styles.contentFoot} no-print`} aria-label="Navegación entre secciones">
+                <NavPager active={active} onSelect={setActive} />
+              </footer>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
     </SectionNavContext.Provider>
   );
 }
@@ -119,8 +148,8 @@ function NavPager({
       >
         <span className={styles.pagerArrow} aria-hidden>←</span>
         <span className={styles.pagerMeta}>
-          <span className="eyebrow-muted">{prev ? prev.num : "·"}</span>
-          <span className={styles.pagerLabel}>{prev ? prev.label : "Inicio"}</span>
+          <span className="eyebrow-muted">{prev ? `${prev.num} · anterior` : "inicio"}</span>
+          <span className={styles.pagerLabel}>{prev ? prev.label : "—"}</span>
         </span>
       </button>
       <button
@@ -131,8 +160,8 @@ function NavPager({
         aria-label={next ? `Siguiente: ${next.label}` : "Sin sección siguiente"}
       >
         <span className={styles.pagerMeta}>
-          <span className="eyebrow-muted">{next ? next.num : "·"}</span>
-          <span className={styles.pagerLabel}>{next ? next.label : "Fin"}</span>
+          <span className="eyebrow-muted">{next ? `${next.num} · siguiente` : "fin"}</span>
+          <span className={styles.pagerLabel}>{next ? next.label : "—"}</span>
         </span>
         <span className={styles.pagerArrow} aria-hidden>→</span>
       </button>
