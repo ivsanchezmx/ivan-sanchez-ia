@@ -19,8 +19,9 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { SYSTEM_PROMPT } from "../src/lib/context.js";
 
-// Haiku 5.5: Q&A acotado a un documento ⇒ mejor costo-beneficio (~$0.001 por pregunta).
-const DEFAULT_MODEL = "claude-haiku-5-5";
+// Sonnet 5.5: mejor tono y criterio que Haiku a ~$0.04 por visita de 3 preguntas.
+// El tope de gasto real se fija en la consola de Claude (Settings → Limits).
+const DEFAULT_MODEL = "claude-sonnet-5-5";
 
 // Modelos que aceptan el respaldo server-side ante rechazos de seguridad.
 // Haiku no lo soporta: enviarlo provocaría un error 400.
@@ -185,6 +186,7 @@ export async function POST(request: Request): Promise<Response> {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",
+      "X-Assistant-Model": model,
     },
   });
 }

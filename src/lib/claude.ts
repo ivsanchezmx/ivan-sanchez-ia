@@ -15,7 +15,7 @@ interface StreamOptions {
 }
 
 /** Nombre visible del modelo en la UI. */
-export const MODEL_LABEL = "Claude Haiku 5.5";
+export const MODEL_LABEL = "Claude Sonnet 5.5";
 
 export class AssistantError extends Error {
   code: string;
