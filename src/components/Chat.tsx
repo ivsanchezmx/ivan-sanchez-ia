@@ -185,7 +185,7 @@ export function Chat() {
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <span className={styles.avatar} aria-hidden>
-            <BrandMark size={36} />
+            <BrandMark size={36} plate />
             <span className={styles.statusDot} />
           </span>
           <span className={styles.headerText}>
